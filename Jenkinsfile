@@ -40,11 +40,11 @@ pipeline {
             steps {
                 withSonarQubeEnv('sonar') {
                     sh '''
-$SCANNER_HOME/bin/sonar-scanner \
--Dsonar.projectName=Boardgame \
--Dsonar.projectKey=Boardgame \
--Dsonar.java.binaries=.
-'''
+                    $SCANNER_HOME/bin/sonar-scanner \
+                    -Dsonar.projectName=Boardgame \
+                    -Dsonar.projectKey=Boardgame \
+                    -Dsonar.java.binaries=.
+                    '''
                 }
             }
         }
@@ -101,26 +101,26 @@ $SCANNER_HOME/bin/sonar-scanner \
 
         stage('deploy to kubernetes') {
             steps {
-                withCredentials([file(credentialsId: 'k8-cred-file', variable: 'KUBECONFIG')]) {
+                withCredentials([file(credentialsId: 'k8-cred', variable: 'KUBECONFIG')]) {
                     sh '''
-export KUBECONFIG=$KUBECONFIG
-
-kubectl get nodes
-kubectl apply -f deployment-service.yaml
-'''
+                        export KUBECONFIG=$KUBECONFIG
+                        
+                        kubectl get nodes
+                        kubectl apply -f deployment-service.yaml
+                        '''
                 }
             }
         }
 
         stage('verify deployment') {
             steps {
-                withCredentials([file(credentialsId: 'k8-cred-file', variable: 'KUBECONFIG')]) {
+                withCredentials([file(credentialsId: 'k8-cred', variable: 'KUBECONFIG')]) {
                     sh '''
-export KUBECONFIG=$KUBECONFIG
-
-kubectl get pods -n webapps
-kubectl get svc -n webapps
-'''
+                        export KUBECONFIG=$KUBECONFIG
+                        
+                        kubectl get pods -n webapps
+                        kubectl get svc -n webapps
+                        '''
                 }
             }
         }

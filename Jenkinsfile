@@ -101,31 +101,41 @@ pipeline {
 
         stage('deploy to kubernetes') {
             steps {
-                withCredentials([file(credentialsId: 'k8-cred', variable: 'KUBECONFIG')]) {
+                withKubeConfig(
+                    caCertificate: '',
+                    clusterName: 'kubernetes',
+                    contextName: '',
+                    credentialsId: 'k8-cred',
+                    namespace: 'webapps',
+                    restrictKubeConfigAccess: false,
+                    serverUrl: 'https://172.31.81.75:6443'
+                ) {
                     sh '''
-                        export KUBECONFIG=$KUBECONFIG
-                        
-                        kubectl get nodes
-                        kubectl apply -f deployment-service.yaml
-                        '''
+                    kubectl get nodes
+                    kubectl apply -f deployment-service.yaml
+                    '''
                 }
             }
         }
 
         stage('verify deployment') {
             steps {
-                withCredentials([file(credentialsId: 'k8-cred', variable: 'KUBECONFIG')]) {
+                withKubeConfig(
+                    caCertificate: '',
+                    clusterName: 'kubernetes',
+                    contextName: '',
+                    credentialsId: 'k8-cred',
+                    namespace: 'webapps',
+                    restrictKubeConfigAccess: false,
+                    serverUrl: 'https://172.31.81.75:6443'
+                ) {
                     sh '''
-                        export KUBECONFIG=$KUBECONFIG
-                        
-                        kubectl get pods -n webapps
-                        kubectl get svc -n webapps
-                        '''
+                    kubectl get pods -n webapps
+                    kubectl get svc -n webapps
+                    '''
                 }
             }
         }
-
-    }  
 
     post {
         always {

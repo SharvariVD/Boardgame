@@ -6,7 +6,7 @@ A full-stack Java Spring Boot web application for browsing and reviewing board g
 
 ## 🏗️ Pipeline Architecture
 
-![CI/CD Pipeline](screenshots/cicd-architecture.png)
+![CI/CD Pipeline](cicd-architecture.png)
 
 ---
 

@@ -82,17 +82,3 @@ Two Trivy scans are run in the pipeline:
 
 ---
 
-## 📦 Application Features
-
-- View board games and reviews without logging in
-- **Users** can add board games and write reviews
-- **Managers** can edit and delete reviews
-- Authentication via Spring Security (username + password)
-- Role-based access control (non-member / user / manager)
-
-**Default credentials to test:**
-| Username | Password | Role |
-|---|---|---|
-| bugs | bunny | User |
-| daffy | duck | Manager |
-
